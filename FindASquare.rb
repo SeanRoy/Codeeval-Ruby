@@ -39,49 +39,31 @@ File.open(ARGV[0]).each_line do |line|
       arr << pt
     end
 
-    arr.sort_by!{ |p| p.x }
-
-    if ( arr[0].y > arr[1].y )
-      tmp = arr[0]
-      arr[0] = arr[1]
-      arr[1] = tmp
-    end
-
-    if ( arr[2].y > arr[3].y )
-      tmp = arr[2]
-      arr[2] = arr[3]
-      arr[3] = tmp
-    end
-
-=begin
-    vDist1 = arr[0].dist(arr[1])
-    vDist2 = arr[2].dist(arr[3])
-    hDist1 = arr[0].dist(arr[2])
-    hDist2 = arr[2].dist(arr[3])
-
-    if ( ( vDist1 != 0 && vDist2 != 0 && hDist1 != 0 && hDist2 != 0 ) &&
-         ( vDist1 == vDist2 && vDist2 == hDist1 && hDist1 == hDist2 ) &&
-         (arr[0].x == arr[1].x && arr[2].x == arr[3].x ) &&
-         (arr[0].y == arr[2].y && arr[1].y == arr[3].y ) )
-      puts 'true'
-      next
-    end
-=end
-
+    # get midpoint
+    midX = 0
+    midY = 0
     arr.each do |p|
-      print p.to_s
+      midX += p.x.to_i
+      midY += p.y.to_i
     end
 
-     if (
-         (arr[0] != arr[1] && arr[1] != arr[2] && arr[2] != arr[3] ) &&
-         (arr[0].x == arr[1].x && arr[2].x == arr[3].x ) &&
-         (arr[0].y == arr[2].y && arr[1].y == arr[3].y ) &&
-         (arr[0].dist(arr[1]) == arr[0].dist(arr[2]))
-       )
-       puts 'true'
-       next
-     end
+    midX = midX / 4
+    midY = midY / 4
 
-    puts false
+    mid = Point.new("(" + midX.to_s + "," + midY.to_s + ")")
+
+    dist = arr[0].dist(mid)
+
+    ret = true
+
+    if dist <= 0
+      ret = false
+    else
+      if arr[0].dist(arr[2]) != arr[1].dist(arr[3])
+        ret = false
+      end
+    end
+
+    puts ret
   end
 end
