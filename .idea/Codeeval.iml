@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="RUBY_MODULE" version="4">
-  <component name="CompassSettings">
-    <option name="compassSupportEnabled" value="true" />
-  </component>
   <component name="ModuleRunConfigurationManager">
     <configuration default="false" name="ReadMore" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
       <module name="Codeeval" />
@@ -16,7 +13,7 @@
       <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
       <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
       <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="C:\Users\Sean\RubymineProjects\Codeeval\ReadMore.rb" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="C:\Users\Sean\RubymineProjects\Codeeval\ReadMore\ReadMore.rb" />
       <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="C:\Users\Sean\RubymineProjects\Codeeval\input.txt" />
       <RunnerSettings RunnerId="RubyDebugRunner" />
       <RunnerSettings RunnerId="RubyRunner" />
@@ -36,7 +33,7 @@
       <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
       <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
       <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/FindASquare.rb" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="C:\Users\Sean\RubymineProjects\Codeeval\FindASquare\FindASquare.rb" />
       <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="C:\Users\Sean\RubymineProjects\Codeeval\input.txt" />
       <RunnerSettings RunnerId="RubyRunner" />
       <ConfigurationWrapper RunnerId="RubyRunner" />
@@ -49,4 +46,3 @@
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
-
