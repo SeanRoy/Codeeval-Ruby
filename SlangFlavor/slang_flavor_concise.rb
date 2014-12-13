@@ -13,7 +13,8 @@
 
 def blah(s)
   ret = @replace ? @rep[0] : s
-  @rep << @rep.shift if @replace
+  #@rep << @rep.shift if @replace
+  @rep.rotate! if @replace
   @replace = !@replace
   ret
 end
