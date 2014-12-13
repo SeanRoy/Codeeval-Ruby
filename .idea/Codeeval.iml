@@ -77,7 +77,7 @@
       <ConfigurationWrapper RunnerId="RubyRunner" />
       <method />
     </configuration>
-    <configuration default="false" name="slang_flavor_concise" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
+    <configuration default="false" name="reverse_groups" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
       <module name="Codeeval" />
       <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
       <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="$MODULE_DIR$/SlangFlavor" />
@@ -89,9 +89,11 @@
       <EXTENSION ID="JRubyRunConfigurationExtension" NailgunExecEnabled="false" />
       <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
       <EXTENSION ID="org.jetbrains.plugins.ruby.motion.run.MotionSimulatorRunExtension" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="C:\Users\Sean\RubymineProjects\Codeeval\SlangFlavor\slang_flavor_concise.rb" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="C:\Users\Sean\RubymineProjects\Codeeval\SlangFlavor\input.txt" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$MODULE_DIR$/ReverseGroups/reverse_groups.rb" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="C:\Users\Sean\RubymineProjects\Codeeval\ReverseGroups\input.txt" />
+      <RunnerSettings RunnerId="RubyDebugRunner" />
       <RunnerSettings RunnerId="RubyRunner" />
+      <ConfigurationWrapper RunnerId="RubyDebugRunner" />
       <ConfigurationWrapper RunnerId="RubyRunner" />
       <method />
     </configuration>
