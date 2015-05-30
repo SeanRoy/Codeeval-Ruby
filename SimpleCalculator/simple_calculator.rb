@@ -1,40 +1,3 @@
-
-class SimpleQueue
-  def initialize(arr=nil)
-    @store = arr.nil? ? [] : arr
-  end
-
-  def dequeue
-    @store.shift
-  end
-
-  def enqueue(element)
-    @store.unshift(element)
-    self
-  end
-
-  def push(element)
-    @store.push(element)
-    self
-  end
-
-  def size
-    @store.size
-  end
-
-  def peek
-    @store[0]
-  end
-
-  def empty?
-    @store.size == 0
-  end
-
-  def reverse
-    @store.reverse!
-  end
-end
-
 class Stack
   def initialize(arr=nil)
     @store = arr.nil? ? [] : arr
@@ -78,115 +41,157 @@ class Stack
     @store.reverse!
   end
 end
+class SimpleQueue
+  def initialize(arr=nil)
+    @store = arr.nil? ? [] : arr
+  end
+
+  def dequeue
+    @store.shift
+  end
+
+  def enqueue(element)
+    @store.unshift(element)
+    self
+  end
+
+  def push(element)
+    @store.push(element)
+    self
+  end
+
+  def size
+    @store.size
+  end
+
+  def peek
+    @store[0]
+  end
+
+  def empty?
+    @store.size == 0
+  end
+
+  def reverse
+    @store.reverse!
+  end
+end
+
+
+class Node
+  attr_accessor :value
+  attr_accessor :left
+  attr_accessor :right
+  attr_accessor :parent
+
+  def initialize(val=nil)
+    @value = val
+    @left = nil
+    @right = nil
+  end
+end
+class BinaryTree
+  attr_accessor :current_node
+
+  def initialize
+    @current_node = @root
+  end
+
+  def add_left
+    if @current_node.left.nil?
+      @current_node.left = Node.new
+    end
+  end
+
+  def add_right
+    if @current_node.right.nil?
+      @current_node.right = Node.new
+    end
+  end
+end
 
 class SimpleCalculator
-  def initialize
-    @operands = Stack.new
-    @operators = Stack.new
-    @decimalString = SimpleQueue.new
-    @minus = false
+  def initialize(queue)
+    @q = queue
+    @tree = BinaryTree.new
   end
 
-  def to_number(str)
-    if /\./.match(str)
-      str.to_f
-    else
-      str.to_i
-    end
-  end
+  def solve(cur)
+    op = cur.value
 
-  def solve()
-    result = 0.0;
-    until @operators.empty?
-      op = @operators.pop
+    left = cur.left
+    right = cur.right
 
-      operand2 = @operands.pop.to_f
-      operand1 = @operands.pop.to_f
-
+    unless left.nil? && right.nil?
       case op
         when '+'
-          result = operand1 + operand2
+          result = solve(cur.left) + solve(cur.right)
         when '-'
-          result = operand1 - operand2
+          result = solve(cur.left) - solve(cur.right)
         when '/'
-          result = operand1 / operand2
+          result = solve(cur.left) / solve(cur.right)
         when '*'
-          result = operand1 * operand2
+          result = solve(cur.left) * solve(cur.right)
+        when '^'
+          result = solve(cur.left) ** solve(cur.right)
       end
-
-      # if a number is precise, like 34.0, convert it to an integer.
-      if result.to_f == result.to_i
-        result = result.to_i
-      end
-
-      @operands.push(result)
-    end
-
-    if @operands.size == 1
-      result = @operands.pop
+    else
+      result = cur.value
     end
 
     result
   end
 
-  def numberComplete(q)
-    if ! @decimalString.empty?
-      str = ''
-      until @decimalString.empty?
-        str = @decimalString.dequeue.to_s + str
+  def load()
+    stack = Stack.new
+    root = Node.new
+    current = root
+
+    until @q.empty?
+      c = @q.dequeue
+
+      # get a number if one exists
+      if /\d/.match c
+        num = c
+        while /[\d\\.]/.match @q.peek
+          c = @q.dequeue
+          num = num + c
+        end
+
+        current.value = num.to_f
+
+        if current.parent.nil?
+          current.parent = Node.new
+          current.parent.left = current
+        end
+
+        current = current.parent
       end
 
-      neg = 1
-      if @minus
-        neg = -1
-        minus = false
+      case c
+        when '('
+          current.left = Node.new
+          current.left.parent = current
+          current = current.left
+        when ')'
+
+        when '+','-','*','/','^'
+          if current.value.nil?
+            current.value = c
+
+            current.right = Node.new
+            current.right.parent = current
+            current = current.right
+          else
+            current.parent = Node.new
+            current.parent.left = current
+            current = current.parent
+            current.value = c
+          end
       end
 
-      num = to_number(str) * neg
-
-      if q.peek == '^'
-        q.dequeue
-        num = num ** to_number(q.dequeue)
-      end
-
-      @operands.push num
     end
-  end
-  def load(q)
-    until q.empty?
-      c = q.dequeue
-
-      if /[\d\.]/.match(c)
-        @decimalString.enqueue c
-        numberComplete(q) if q.empty? || !/[\d\.]/.match(q.peek)
-      else
-       case c
-         when '-'
-           if /\d/.match(q.peek)
-             minus = true
-           else
-             @operators.enqueue c
-           end
-         when '('
-           new_queue = SimpleQueue.new
-           until q.peek == ')'
-             new_queue.push q.dequeue
-           end
-
-           # Get rid of the closing parentheses
-           q.dequeue
-
-           sc = SimpleCalculator.new
-           sc.load(new_queue)
-           @operands.pop
-           @operands.push sc.solve
-         when '*','/'
-           @operators.push c
-         when '+','-'
-           @operators.enqueue c
-       end
-      end
-    end
+    root
   end
 end
 
@@ -194,9 +199,18 @@ File.open(ARGV[0]).each_line do |line|
   line.chomp!
 
   if !line.empty?
-    sc = SimpleCalculator.new
-    sc.load(SimpleQueue.new(line.split('')))
-    puts sc.solve()
+
+    sc = SimpleCalculator.new(SimpleQueue.new(line.split('')))
+
+    root = sc.load
+    result = sc.solve(root)
+
+    # if a number is precise, like 34.0, convert it to an integer.
+    if result.to_f == result.to_i
+      result = result.to_i
+    end
+
+    puts result
   end
 end
 
