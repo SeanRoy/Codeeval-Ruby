@@ -1,28 +1,24 @@
-File.open(ARGV[0]).each_line do |line|
 
-  line.chomp!
+str = ''
+first = nil
 
-  i = 0
+File.open(ARGV[0]).each_byte do |byte|
 
-  first = nil
-  first_index = 0
+  num = byte - '0'.ord
 
-  line.each_byte do |c|
-    num = c - '0'.ord
-    if num >= 0 && num <= 9
-      if first.nil?
-        first = c.chr
-        first_index = i
-      else
-        line[first_index] = c.chr
-        line[i] = first
-        first = nil
-      end
-    end
+  number = num >= 0 && num <= 9
 
-    i = i + 1
+  if first.nil? && number
+    first = byte.chr
+  elsif first && number
+    print "#{byte.chr}#{str}#{first}"
+    first = nil
+    str = nil
+  elsif first && !number
+    str = "#{str}#{byte.chr}"
+  else
+    print byte.chr
   end
 
-  puts line
 
 end
